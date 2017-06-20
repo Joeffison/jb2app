@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Jardim Botânico 2</string>
+
+    <string name="navigation_drawer_open">Abrir janela de navegação</string>
+    <string name="navigation_drawer_close">Fechar janela de navegação</string>
+
+    <string name="action_settings">Configurações</string>
+
+    <string name="home">Home</string>
+    <string name="credits">Créditos</string>
+    <string name="aboutme">Sobre o Desenvolvedor</string>
+
+    <string name="communicate">Compartilhar</string>
+    <string name="share">Compartilhar</string>
+    <string name="send_to">Enviar para</string>
+</resources>
