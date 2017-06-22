@@ -7,8 +7,8 @@ android {
         applicationId "com.joeffison.jardimbotanico2"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 18
+        versionName "1.0.2017.06.22.17.43"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
