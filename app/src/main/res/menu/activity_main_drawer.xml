@@ -9,6 +9,11 @@
             android:title="@string/home" />
 
         <item
+            android:id="@+id/nav_utilities"
+            android:icon="@android:drawable/sym_call_outgoing"
+            android:title="@string/utilities" />
+
+        <item
             android:id="@+id/nav_aboutme_professional"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/credits" />

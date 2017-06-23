@@ -100,9 +100,6 @@ public class MainActivity extends AppCompatActivity
             mAdViewInterstitial.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-//                    Snackbar.make(MainActivity.this.mAdView, "onAdLoaded", Snackbar.LENGTH_LONG)
-//                            .setAction("Ads", null).show();
                     showInterstitial();
                 }
 
@@ -112,29 +109,6 @@ public class MainActivity extends AppCompatActivity
                     Snackbar.make(MainActivity.this.mAdView, "onAdFailedToLoad: " + errorCode, Snackbar.LENGTH_LONG)
                             .setAction("Ads", null).show();
                 }
-
-//                @Override
-//                public void onAdOpened() {
-//                    // Code to be executed when an ad opens an overlay that
-//                    // covers the screen.
-//                    Snackbar.make(MainActivity.this.mAdView, "onAdOpened", Snackbar.LENGTH_LONG)
-//                            .setAction("Ads", null).show();
-//                }
-//
-//                @Override
-//                public void onAdLeftApplication() {
-//                    // Code to be executed when the user has left the app.
-//                    Snackbar.make(MainActivity.this.mAdView, "onAdLeftApplication", Snackbar.LENGTH_LONG)
-//                            .setAction("Ads", null).show();
-//                }
-//
-//                @Override
-//                public void onAdClosed() {
-//                    // Code to be executed when when the user is about to return
-//                    // to the app after tapping on an ad.
-//                    Snackbar.make(MainActivity.this.mAdView, "onAdClosed", Snackbar.LENGTH_LONG)
-//                            .setAction("Ads", null).show();
-//                }
             });
         }
     }
@@ -143,39 +117,9 @@ public class MainActivity extends AppCompatActivity
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.setAdListener(new AdListener(){
             @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                Snackbar.make(adView, "onAdLoaded", Snackbar.LENGTH_LONG)
-                        .setAction("Ads", null).show();
-            }
-
-            @Override
             public void onAdFailedToLoad(int errorCode) {
                 // Code to be executed when an ad request fails.
                 Snackbar.make(adView, "onAdFailedToLoad: " + errorCode, Snackbar.LENGTH_LONG)
-                        .setAction("Ads", null).show();
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-                Snackbar.make(adView, "onAdOpened", Snackbar.LENGTH_LONG)
-                        .setAction("Ads", null).show();
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-                Snackbar.make(adView, "onAdLeftApplication", Snackbar.LENGTH_LONG)
-                        .setAction("Ads", null).show();
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
-                Snackbar.make(adView, "onAdClosed", Snackbar.LENGTH_LONG)
                         .setAction("Ads", null).show();
             }
         });

@@ -19,7 +19,7 @@ import com.joeffison.jardimbotanico2.model.Utility;
 public class UtilityService {
     private Context context;
 
-    private static final String API_URL = "http://www.google.com";
+    private static final String API_URL = "joeffison.github.io/jb2/data/utility.json";
 
     public UtilityService(Context context){
         this.context = context;
@@ -35,7 +35,7 @@ public class UtilityService {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         Gson gson = new Gson();
-                        Utility[] utility = gson.fromJson("[{name='Joeffison'}]", Utility[].class);
+                        Utility[] utility = gson.fromJson(response, Utility[].class);
                         Log.i("Utility received", utility.length+"");
                         for (Utility u: utility) {
                             Log.i("Utility received", u+"");
