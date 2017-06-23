@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v4.view.MenuItemCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
 //import android.widget.ShareActionProvider;
 
 import com.google.android.gms.ads.AdListener;
@@ -28,15 +29,14 @@ import com.joeffison.jardimbotanico2.util.MyWebViewHandler;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private WebViewFragment webViewFragment;
+
     private AdView mAdView;
     private AdView mAdViewBanner2;
     private InterstitialAd mAdViewInterstitial;
 
-    private MyWebViewHandler webViewHandler;
-
     private ShareActionProvider mShareActionProvider;
-
-//    private ShareActionProvider mShareActionProviderFB;
+    //    private ShareActionProvider mShareActionProviderFB;
     //    private static final String ADMOB_APP_ID = "ca-app-pub-5566653721914999~9056708863";
     private static final String URL_APP_SITE_HOME = "https://joeffison.github.io/jb2/";
     private static final String URL_ABOUT_ME = "https://www.instagram.com/joeffison/";
@@ -46,6 +46,29 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Check that the activity is using the layout version with the fragment_container
+        if (findViewById(R.id.main_fragment_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+            webViewFragment = new WebViewFragment();
+
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            webViewFragment.setArguments(getIntent().getExtras());
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.main_fragment_container, webViewFragment).commit();
+        }
+
         startAdService();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,22 +78,18 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 shareContent();
             }
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        setUpWebView();
     }
 
     private void startAdService() {
@@ -156,11 +175,6 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    private void setUpWebView() {
-        this.webViewHandler = new MyWebViewHandler((WebView) findViewById(R.id.mainwebviewid),
-                URL_APP_SITE_HOME);
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -218,15 +232,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
 //            new UtilityService(this).list();
-            this.webViewHandler.goHome();
+            this.webViewFragment.goHome();
             startInterstitialRequest();
 //            Intent intent = new Intent(this, AdsActivity.class);
 //            startActivity(intent);
         } else if (id == R.id.nav_aboutme) {
-            this.webViewHandler.goToUrl(URL_ABOUT_ME);
+            this.webViewFragment.goToUrl(URL_ABOUT_ME);
             startInterstitialRequest();
         } else if (id == R.id.nav_aboutme_professional) {
-            this.webViewHandler.goToUrl(URL_ABOUT_ME_PROFESSIONAL);
+            this.webViewFragment.goToUrl(URL_ABOUT_ME_PROFESSIONAL);
             startInterstitialRequest();
 //        } else if (id == R.id.nav_manage) {
 //
