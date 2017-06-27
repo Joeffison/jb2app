@@ -5,4 +5,7 @@
     <color name="colorPrimaryDark">#004d40</color> <!--teal darken-4 http://materializecss.com/color.html-->
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
     <color name="colorAccent">#FF4081</color>
+
+    <color name="viewBg">#f1f5f8</color>
+    <color name="card_title">#4c4c4c</color>
 </resources>

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
@@ -30,15 +32,18 @@ import com.joeffison.jardimbotanico2.util.MyWebViewHandler;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private WebViewFragment webViewFragment;
+    private static boolean onWebView;
 
     private AdView mAdView;
     private AdView mAdViewBanner2;
     private InterstitialAd mAdViewInterstitial;
 
+    private UtilityFragment utilityFragment;
+
     private ShareActionProvider mShareActionProvider;
     //    private ShareActionProvider mShareActionProviderFB;
-    //    private static final String ADMOB_APP_ID = "ca-app-pub-5566653721914999~9056708863";
     private static final String URL_APP_SITE_HOME = "https://joeffison.github.io/jb2/";
+    private static final String URL_APP_PLAY_STORE = "https://play.google.com/store/apps/details?id=com.joeffison.jardimbotanico2";
     private static final String URL_ABOUT_ME = "https://www.instagram.com/joeffison/";
     private static final String URL_ABOUT_ME_PROFESSIONAL = "https://github.com/Joeffison";
 
@@ -67,6 +72,13 @@ public class MainActivity extends AppCompatActivity
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.main_fragment_container, webViewFragment).commit();
+            onWebView = true;
+
+            this.utilityFragment = new UtilityFragment();
+            this.utilityFragment.setArguments(getIntent().getExtras());
+
+            switchToFragment(this.utilityFragment);
+            onWebView = false;
         }
 
         startAdService();
@@ -230,24 +242,33 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-//            new UtilityService(this).list();
+        if (id == R.id.nav_share) {
+            setShareIntent(shareContent());
+        } else if (id == R.id.nav_utilities) {
+            if (onWebView) {
+                switchToFragment(this.utilityFragment);
+                onWebView = false;
+                startInterstitialRequest();
+            }
+        } else if (id == R.id.nav_home) {
+            if (!onWebView) {
+                switchToFragment(this.webViewFragment);
+            }
             this.webViewFragment.goHome();
+            onWebView = true;
             startInterstitialRequest();
-//            Intent intent = new Intent(this, AdsActivity.class);
-//            startActivity(intent);
         } else if (id == R.id.nav_aboutme) {
+            if (!onWebView) {
+                switchToFragment(this.webViewFragment);
+            }
             this.webViewFragment.goToUrl(URL_ABOUT_ME);
             startInterstitialRequest();
         } else if (id == R.id.nav_aboutme_professional) {
+            if (!onWebView) {
+                switchToFragment(this.webViewFragment);
+            }
             this.webViewFragment.goToUrl(URL_ABOUT_ME_PROFESSIONAL);
             startInterstitialRequest();
-//        } else if (id == R.id.nav_manage) {
-//
-        } else if (id == R.id.nav_share) {
-            setShareIntent(shareContent());
-//        } else if (id == R.id.nav_send) {
-//
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -255,11 +276,23 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void switchToFragment(Fragment newFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.main_fragment_container, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
     @NonNull
     private Intent shareContent() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, URL_APP_SITE_HOME);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, URL_APP_PLAY_STORE);
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
         return sendIntent;

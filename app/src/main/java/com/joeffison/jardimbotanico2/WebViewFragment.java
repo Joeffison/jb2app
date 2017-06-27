@@ -24,22 +24,16 @@ public class WebViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_web_view, container, false);
-        setUpWebView(v);
-        return v;
+        View view = inflater.inflate(R.layout.fragment_web_view, container, false);
+        setUpWebView(view);
+
+        return view;
     }
 
-    public void setUpWebView(View v) {
-        if((WebView) v.findViewById(R.id.mainwebviewid) == null) {
-//            Snackbar.make(context.getCurrentFocus(), "WebView) findViewById(R.id.mainwebviewid) == null", Snackbar.LENGTH_LONG)
-//                    .setAction("Ads", null).show();
-            Log.e("WebViewFragment>WebView", "WebView findViewById(R.id.mainwebviewid) == null");
-        } else {
-//            Snackbar.make(getActivity().getCurrentFocus(), "WebViewFragment>WebView findViewById(R.id.mainwebviewid) != null", Snackbar.LENGTH_LONG)
-//                    .setAction("Ads", null).show();
-            this.webViewHandler = new MyWebViewHandler((WebView) v.findViewById(R.id.mainwebviewid),
-                    URL_APP_SITE_HOME);
-            Log.e("WebViewFragment>WebView", "WebView findViewById(R.id.mainwebviewid) IS NOT null");
+    public void setUpWebView(View view) {
+        WebView webView = (WebView) view.findViewById(R.id.mainwebviewid);
+        if(webView != null) {
+            this.webViewHandler = new MyWebViewHandler(webView, URL_APP_SITE_HOME);
         }
     }
 
