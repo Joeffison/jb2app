@@ -1,0 +1,149 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.joeffison.jardimbotanico2.UtilityDetailFragment">
+
+    <!--<TextView-->
+        <!--android:id="@+id/utility_detail_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="@string/hello_blank_fragment" />-->
+
+    <!--<include-->
+        <!--layout="@layout/list_utility_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="@dimen/card_radius"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--<LinearLayout android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:weightSum="4"-->
+                <!--android:id="@+id/card_thumbnail_holder"-->
+                <!--android:orientation="horizontal">-->
+                <!---->
+                <!--<android.support.v4.widget.Space-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1" />-->
+                <!---->
+                <!--<com.synnapps.carouselview.CarouselView-->
+                    <!--android:id="@+id/card_thumbnail"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="@dimen/card_cover_height"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--fillColor="#FFFFFFFF"-->
+                    <!--pageColor="#00000000"-->
+                    <!--radius="6dp"-->
+                    <!--slideInterval="3000"-->
+                    <!--strokeColor="#FF777777"-->
+                    <!--strokeWidth="1dp"/>-->
+
+                <!--<android.support.v4.widget.Space-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1" />-->
+            <!--</LinearLayout>-->
+
+            <!--<ImageView-->
+            <!--android:id="@+id/card_thumbnail"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/card_cover_height"-->
+            <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+            <!--android:clickable="true"-->
+            <!--android:scaleType="fitXY" />-->
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/card_title_padding"
+                android:paddingRight="@dimen/card_title_padding"
+                android:paddingTop="@dimen/card_title_padding"
+                android:textColor="@color/card_title"
+                android:textSize="@dimen/card_title" />
+
+            <TextView
+                android:id="@+id/card_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_title"
+                android:paddingBottom="@dimen/card_count_padding_bottom"
+                android:paddingLeft="@dimen/card_title_padding"
+                android:paddingRight="@dimen/card_title_padding"
+                android:textSize="@dimen/card_count" />
+
+            <TextView
+                android:id="@+id/card_whatsapp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_name"
+                android:paddingBottom="@dimen/card_count_padding_bottom"
+                android:paddingLeft="@dimen/card_title_padding"
+                android:paddingRight="@dimen/card_title_padding"
+                android:textSize="@dimen/card_count" />
+
+            <TextView
+                android:id="@+id/card_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_whatsapp"
+                android:paddingBottom="@dimen/card_count_padding_bottom"
+                android:paddingLeft="@dimen/card_title_padding"
+                android:paddingRight="@dimen/card_title_padding"
+                android:clickable="true"
+                android:textSize="@dimen/card_count" />
+
+            <TextView
+                android:id="@+id/card_dweller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_website"
+                android:paddingBottom="@dimen/card_count_padding_bottom"
+                android:paddingLeft="@dimen/card_title_padding"
+                android:paddingRight="@dimen/card_title_padding"
+                android:textSize="@dimen/card_count" />
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/card_thumbnail"
+                android:layout_below="@id/card_dweller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                fillColor="#F0F00F00"
+                pageColor="#00000000"
+                radius="6dp"
+                slideInterval="3000"
+                strokeColor="#FF777777"
+                strokeWidth="1dp"/>
+
+            <!--ImageView
+                android:id="@+id/overflow"
+                android:layout_width="@dimen/ic_card_overflow_width"
+                android:layout_height="@dimen/ic_card_overflow_height"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/thumbnail"
+                android:layout_marginTop="@dimen/ic_card_overflow_margin_top"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_dots" /-->
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

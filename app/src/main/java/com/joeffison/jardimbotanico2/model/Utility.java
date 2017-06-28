@@ -1,5 +1,7 @@
 package com.joeffison.jardimbotanico2.model;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 /**
@@ -8,6 +10,7 @@ import com.google.gson.Gson;
 
 public class Utility {
     private final static String IMAGE_HOME_PATH = "https://joeffison.github.io/jb2/data/utility/";
+    private final static Gson PARSER = new Gson();
 
     private int id;
     private String name;
@@ -34,7 +37,7 @@ public class Utility {
     }
 
     public String getTitle() {
-        return title;
+        return title.replace("Maravilhoso", "");
     }
 
     public String getWhatsapp() {
@@ -67,5 +70,9 @@ public class Utility {
         }
 
         return images;
+    }
+
+    public static Utility toUtility(String utility) {
+        return PARSER.fromJson(utility, Utility.class);
     }
 }

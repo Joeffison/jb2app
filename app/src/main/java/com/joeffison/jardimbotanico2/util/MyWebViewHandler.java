@@ -17,7 +17,7 @@ public class MyWebViewHandler {
         this.webView = webView;
         this.homeUrl = homeUrl;
 
-        this.webView.loadUrl(homeUrl);
+//        this.webView.loadUrl(homeUrl);
 
         // Enable Navigation within app
         this.webView.setWebViewClient(new WebViewClient(){

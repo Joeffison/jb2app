@@ -1,11 +1,15 @@
 package com.joeffison.jardimbotanico2;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +62,7 @@ public class UtilityFragment extends Fragment {
         // mLayoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, true);
         mLayoutManager = new GridLayoutManager(main_view.getContext(), 2);
         // mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
 
@@ -84,7 +88,7 @@ public class UtilityFragment extends Fragment {
             }
         });
         UtilityFragment.this.list.addAll(Arrays.asList(mockData));
-        mAdapter = new MyAdapter(this.getContext(), this.list);
+        mAdapter = new UtilityRVAdapter(this.getContext(), this.list);
         mRecyclerView.setAdapter(mAdapter);
 
         return main_view;
@@ -134,95 +138,5 @@ public class UtilityFragment extends Fragment {
     private int dpToPx(int dp) {
         Resources r = this.main_view.getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
-}
-
-class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private final Context mContext;
-    private List<Utility> mDataset;
-
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView cardTitle;
-        public TextView cardName;
-        public CarouselView cardThumbnail;
-
-        public ViewHolder(View view) {
-            super(view);
-            cardTitle = (TextView) view.findViewById(R.id.card_title);
-            cardName = (TextView) view.findViewById(R.id.card_name);
-            cardThumbnail = (CarouselView) view.findViewById(R.id.card_thumbnail);
-        }
-    }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(Context context, List<Utility> myDataset) {
-        mContext = context;
-        mDataset = myDataset;
-    }
-
-    // Create new views (invoked by the layout manager)
-    @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
-        LinearLayout view = (LinearLayout) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_utility_view, parent, false);
-        // set the view's size, margins, paddings and layout parameters
-        // ...
-        return new ViewHolder(view);
-    }
-
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-
-        Utility utility = mDataset.get(position);
-
-        if(utility != null) {
-            holder.cardTitle.setText(utility.getTitle());
-            holder.cardName.setText(utility.getName());
-            if(utility.getImages() != null && utility.getImages().length > 0) {
-                Log.d("DEBUG", utility.getImages()[0]);
-//                Glide.with(mContext).load(utility.getImages()[0]).into(holder.cardThumbnail);
-
-                holder.cardThumbnail.setPageCount(utility.getImages().length);
-                holder.cardThumbnail.setImageListener(new RecyclerImageListener(utility.getImages()));
-            } else {
-//                holder.cardThumbnail.setImageResource(android.R.color.transparent);
-                holder.cardThumbnail.setImageListener(new RecyclerImageListener(null));
-                holder.cardThumbnail.setPageCount(1);
-//                holder.cardThumbnail.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    // Return the size of your dataset (invoked by the layout manager)
-    @Override
-    public int getItemCount() {
-        return mDataset.size();
-    }
-
-    private class RecyclerImageListener implements ImageListener {
-        private final String[] images;
-
-        public RecyclerImageListener(String[] images){
-            this.images = images;
-        }
-
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            if(images != null) {
-                Glide.with(mContext).load(images[position]).into(imageView);
-            } else {
-                Glide.with(mContext).load(R.mipmap.ic_launcher_jb2).into(imageView);
-            }
-//            imageView.setImageResource(sampleImages[position]);
-        }
-
     }
 }

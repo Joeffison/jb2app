@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     //    private ShareActionProvider mShareActionProviderFB;
     private static final String URL_APP_SITE_HOME = "https://joeffison.github.io/jb2/";
     private static final String URL_APP_PLAY_STORE = "https://play.google.com/store/apps/details?id=com.joeffison.jardimbotanico2";
-    private static final String URL_ABOUT_ME = "https://www.instagram.com/joeffison/";
+    private static final String URL_ABOUT_ME = "https://instagram.com/joeffison/";
     private static final String URL_ABOUT_ME_PROFESSIONAL = "https://github.com/Joeffison";
 
     @Override
@@ -245,29 +245,34 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_share) {
             setShareIntent(shareContent());
         } else if (id == R.id.nav_utilities) {
-            if (onWebView) {
+            if (!this.utilityFragment.isVisible()) {
                 switchToFragment(this.utilityFragment);
                 onWebView = false;
                 startInterstitialRequest();
             }
         } else if (id == R.id.nav_home) {
-            if (!onWebView) {
+            if (!this.webViewFragment.isVisible()) {
                 switchToFragment(this.webViewFragment);
             }
+
             this.webViewFragment.goHome();
             onWebView = true;
             startInterstitialRequest();
         } else if (id == R.id.nav_aboutme) {
-            if (!onWebView) {
+            if (!this.webViewFragment.isVisible()) {
                 switchToFragment(this.webViewFragment);
             }
+
             this.webViewFragment.goToUrl(URL_ABOUT_ME);
+            onWebView = true;
             startInterstitialRequest();
         } else if (id == R.id.nav_aboutme_professional) {
-            if (!onWebView) {
+            if (!this.webViewFragment.isVisible()) {
                 switchToFragment(this.webViewFragment);
             }
+
             this.webViewFragment.goToUrl(URL_ABOUT_ME_PROFESSIONAL);
+            onWebView = true;
             startInterstitialRequest();
         }
 
