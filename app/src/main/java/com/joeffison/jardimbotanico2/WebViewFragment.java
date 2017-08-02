@@ -37,6 +37,11 @@ public class WebViewFragment extends Fragment {
         }
     }
 
+    public String getCurrentUrl() {
+        Log.d("WebView", this.webViewHandler == null ? "" : ""+this.webViewHandler.getCurrentUrl());
+        return this.webViewHandler == null ? null : this.webViewHandler.getCurrentUrl();
+    }
+
     public void goHome() {
         this.webViewHandler.goHome();
     }

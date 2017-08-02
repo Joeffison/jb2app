@@ -1,33 +1,42 @@
 package com.joeffison.jardimbotanico2;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.ShareActionProvider;
-import android.support.v4.view.MenuItemCompat;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-//import android.widget.ShareActionProvider;
+import android.view.View;
+import android.widget.Toast;
 
+import com.adcolony.sdk.AdColony;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.joeffison.jardimbotanico2.util.MyWebViewHandler;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.jirbo.adcolony.AdColonyBundleBuilder;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+//import android.widget.ShareActionProvider;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private AdView mAdView;
     private AdView mAdViewBanner2;
     private InterstitialAd mAdViewInterstitial;
+    private RewardedVideoAd mRewardedVideoAd;
 
     private UtilityFragment utilityFragment;
 
@@ -44,8 +54,9 @@ public class MainActivity extends AppCompatActivity
     //    private ShareActionProvider mShareActionProviderFB;
     private static final String URL_APP_SITE_HOME = "https://joeffison.github.io/jb2/";
     private static final String URL_APP_PLAY_STORE = "https://play.google.com/store/apps/details?id=com.joeffison.jardimbotanico2";
-    private static final String URL_ABOUT_ME = "https://instagram.com/joeffison/";
+    private static final String URL_ABOUT_ME = "https://github.com/Joeffison";//"https://instagram.com/joeffison/";
     private static final String URL_ABOUT_ME_PROFESSIONAL = "https://github.com/Joeffison";
+    private static int rewardedVideoCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +92,7 @@ public class MainActivity extends AppCompatActivity
             onWebView = false;
         }
 
+        this.rewardedVideoCount = 0;
         startAdService();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -90,7 +102,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareContent();
+//                shareContent();
+                showRewardedVideo();
             }
         });
 
@@ -106,9 +119,63 @@ public class MainActivity extends AppCompatActivity
 
     private void startAdService() {
         MobileAds.initialize(this, getString(R.string.admob_app_id));
+
+        AdColonyBundleBuilder.setUserId("JqOA7T9kyNfgyNx1tr7R");
+        AdColonyBundleBuilder.setShowPrePopup(true);
+        AdColonyBundleBuilder.setShowPostPopup(true);
+        AdColony.configure(this,            // activity context
+                "app1143de485ea84e59b2",
+                "vzff813efe3ee5498ab9", "vz3b960ad6884e49a7a4");  // list of all your zones set up on the AdColony Dashboard
+
         this.mAdView = (AdView) findViewById(R.id.adView);
 //        this.mAdViewBanner2 = (AdView) findViewById(R.id.adViewBanner2);
 //
+        // Rewarded Video
+        this.mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+//        this.mRewardedVideoAd.
+        this.mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+
+            @Override
+            public void onRewarded(RewardItem reward) {
+                Toast.makeText(MainActivity.this, "onRewarded! currency: " + reward.getType() + "  amount: " +
+                        reward.getAmount(), Toast.LENGTH_SHORT).show();
+                // Reward the user.
+            }
+
+            // The following listener methods are optional.
+            @Override
+            public void onRewardedVideoAdLeftApplication() {
+//                Toast.makeText(MainActivity.this, "onRewardedVideoAdLeftApplication",
+//                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdClosed() {
+//                Toast.makeText(MainActivity.this, "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdFailedToLoad(int errorCode) {
+//                Toast.makeText(MainActivity.this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdLoaded() {
+//                Toast.makeText(MainActivity.this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoAdOpened() {
+//                Toast.makeText(MainActivity.this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRewardedVideoStarted() {
+//                Toast.makeText(MainActivity.this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
+            }
+        });
+        loadRewardedVideoAd();
+
         setUpAd(this.mAdView);
 //        setUpAd(this.mAdViewBanner2);
 
@@ -122,8 +189,35 @@ public class MainActivity extends AppCompatActivity
         startInterstitialRequest();
     }
 
+    private void loadRewardedVideoAd() {
+        if (this.mRewardedVideoAd != null) {
+//            AdRequest request = new AdRequest.Builder()
+//                    .addNetworkExtrasBundle(AdColonyAdapter.class, AdColonyBundleBuilder.build())
+//                    .build();
+//            this.mRewardedVideoAd.loadAd(getString(R.string.admob_ad_unit_id_rewarded_video), request);
+            this.mRewardedVideoAd.loadAd(getString(R.string.admob_ad_unit_id_rewarded_video), new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build());
+        }
+        logRewardedVideoAd();
+    }
+
+    private void showRewardedVideo(){
+        if (this.mRewardedVideoAd != null ) {
+            this.mRewardedVideoAd.show();
+            loadRewardedVideoAd();
+        }
+        logRewardedVideoAd();
+    }
+
+    private void logRewardedVideoAd() {
+        if(this.mRewardedVideoAd == null) {
+            Log.d("AD", "this.mRewardedVideoAd == null");
+        } else {
+            Log.d("AD", "this.mRewardedVideoAd.isLoaded:" + this.mRewardedVideoAd.isLoaded());
+        }
+    }
+
     private void startInterstitialRequest() {
-        if (this.mAdViewInterstitial != null) {
+//        if (!Build.FINGERPRINT.startsWith("generic") && this.mAdViewInterstitial != null) {
             AdRequest adRequest = new AdRequest.Builder().build();
             // Load ads into Interstitial Ads
             mAdViewInterstitial.loadAd(adRequest);
@@ -141,11 +235,11 @@ public class MainActivity extends AppCompatActivity
                             .setAction("Ads", null).show();
                 }
             });
-        }
+//        }
     }
 
     private void setUpAd(final AdView adView) {
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         adView.setAdListener(new AdListener(){
             @Override
             public void onAdFailedToLoad(int errorCode) {
@@ -168,21 +262,30 @@ public class MainActivity extends AppCompatActivity
         if (mAdView != null) {
             mAdView.pause();
         }
+        if(this.mRewardedVideoAd != null) {
+            this.mRewardedVideoAd.pause(this);
+        }
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        super.onResume();
         if (mAdView != null) {
             mAdView.resume();
         }
+        if(this.mRewardedVideoAd != null) {
+            this.mRewardedVideoAd.resume(this);
+        }
+        super.onResume();
     }
 
     @Override
     public void onDestroy() {
         if (mAdView != null) {
             mAdView.destroy();
+        }
+        if(this.mRewardedVideoAd != null) {
+            this.mRewardedVideoAd.destroy(this);
         }
         super.onDestroy();
     }
@@ -241,6 +344,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        showRewardedVideo();
 
         if (id == R.id.nav_share) {
             setShareIntent(shareContent());
@@ -251,20 +355,34 @@ public class MainActivity extends AppCompatActivity
                 startInterstitialRequest();
             }
         } else if (id == R.id.nav_home) {
-            if (!this.webViewFragment.isVisible()) {
-                switchToFragment(this.webViewFragment);
+            switchToFragment(this.webViewFragment);
+            if(!URL_APP_SITE_HOME.equals(this.webViewFragment.getCurrentUrl())){
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if(MainActivity.this.webViewFragment.isVisible()) {
+                            MainActivity.this.webViewFragment.goHome();
+                            this.cancel();
+                        }
+                    }
+                }, 0, 500);
+                startInterstitialRequest();
             }
-
-            this.webViewFragment.goHome();
-            onWebView = true;
-            startInterstitialRequest();
         } else if (id == R.id.nav_aboutme) {
-            if (!this.webViewFragment.isVisible()) {
-                switchToFragment(this.webViewFragment);
+            switchToFragment(this.webViewFragment);
+            if(this.webViewFragment.isVisible() && URL_ABOUT_ME.equals(this.webViewFragment.getCurrentUrl())){
+                return true;
             }
 
-            this.webViewFragment.goToUrl(URL_ABOUT_ME);
-            onWebView = true;
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(MainActivity.this.webViewFragment.isVisible()) {
+                        MainActivity.this.webViewFragment.goToUrl(URL_ABOUT_ME);
+                        this.cancel();
+                    }
+                }
+            }, 0, 500);
             startInterstitialRequest();
         } else if (id == R.id.nav_aboutme_professional) {
             if (!this.webViewFragment.isVisible()) {
@@ -282,15 +400,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void switchToFragment(Fragment newFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(!newFragment.isVisible()) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.main_fragment_container, newFragment);
-        transaction.addToBackStack(null);
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.main_fragment_container, newFragment);
+            transaction.addToBackStack(null);
 
-        // Commit the transaction
-        transaction.commit();
+            // Commit the transaction
+            transaction.commit();
+        }
     }
 
     @NonNull

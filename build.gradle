@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
 
@@ -15,6 +16,11 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+
+        /** The repository required for AdColony 3.0 and above */
+        maven {
+            url  "https://adcolony.bintray.com/AdColony"
+        }
     }
 }
 

@@ -8,6 +8,7 @@
     <string name="admob_ad_unit_id_banner">ca-app-pub-5566653721914999/7300774068</string>
     <string name="admob_ad_unit_id_banner2">ca-app-pub-5566653721914999/3867799664</string>
     <string name="admob_ad_unit_id_interstitial">ca-app-pub-5566653721914999/5344532869</string>
+    <string name="admob_ad_unit_id_rewarded_video">ca-app-pub-5566653721914999/6821266068</string>
 
     <string name="action_settings">Configurações</string>
 

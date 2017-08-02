@@ -13,17 +13,18 @@ public class MyWebViewHandler {
     private WebView webView;
     private String homeUrl;
 
+    private String currentUrl;
+
     public MyWebViewHandler(WebView webView, String homeUrl) {
         this.webView = webView;
         this.homeUrl = homeUrl;
-
-//        this.webView.loadUrl(homeUrl);
 
         // Enable Navigation within app
         this.webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url){
-                view.loadUrl(url);
+                goToUrl(url);
+//                view.loadUrl(url);
                 return true;
             }
         });
@@ -33,12 +34,19 @@ public class MyWebViewHandler {
         webSettings.setJavaScriptEnabled(true);
     }
 
+    public String getCurrentUrl() {
+        return this.currentUrl;
+    }
+
     public void goHome() {
         goToUrl(this.homeUrl);
     }
 
     public void goToUrl(String url) {
-        this.webView.loadUrl(url);
+        if(url != null && !url.equals(getCurrentUrl())) {
+            this.webView.loadUrl(url);
+            this.currentUrl = url;
+        }
     }
 
 }
