@@ -24,7 +24,7 @@ public class MyWebViewHandler {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url){
                 goToUrl(url);
-//                view.loadUrl(url);
+                view.loadUrl(url);
                 return true;
             }
         });
@@ -32,6 +32,9 @@ public class MyWebViewHandler {
         // Enable JavaScript
         WebSettings webSettings = this.webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+
+        goToUrl(homeUrl);
     }
 
     public String getCurrentUrl() {

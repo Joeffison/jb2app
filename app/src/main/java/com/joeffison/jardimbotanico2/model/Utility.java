@@ -1,7 +1,5 @@
 package com.joeffison.jardimbotanico2.model;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 /**

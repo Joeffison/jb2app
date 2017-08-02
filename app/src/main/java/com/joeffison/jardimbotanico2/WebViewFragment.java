@@ -18,6 +18,9 @@ import com.joeffison.jardimbotanico2.util.MyWebViewHandler;
 public class WebViewFragment extends Fragment {
 
     private static final String URL_APP_SITE_HOME = "https://joeffison.github.io/jb2/";
+    private static final String GOOGLE_DRIVE = "https://drive.google.com/viewerng/viewer?embedded=true&url=";
+    private static final String URL_PDF_RULES = GOOGLE_DRIVE + "https://github.com/Joeffison/jb2/raw/gh-pages/data/utils/00_Regimento%20Interno.pdf";
+    private static final String URL_PDF_LAST_MEETING = GOOGLE_DRIVE + "https://github.com/Joeffison/jb2/raw/gh-pages/data/utils/01_Assembleia%20Resumo.pdf";
     private MyWebViewHandler webViewHandler;
 
     @Override
@@ -33,7 +36,7 @@ public class WebViewFragment extends Fragment {
     public void setUpWebView(View view) {
         WebView webView = (WebView) view.findViewById(R.id.mainwebviewid);
         if(webView != null) {
-            this.webViewHandler = new MyWebViewHandler(webView, URL_APP_SITE_HOME);
+            this.webViewHandler = new MyWebViewHandler(webView, URL_PDF_LAST_MEETING);
         }
     }
 
@@ -47,6 +50,8 @@ public class WebViewFragment extends Fragment {
     }
 
     public void goToUrl(String url) {
-        this.webViewHandler.goToUrl(url);
+        if(this.webViewHandler != null) {
+            this.webViewHandler.goToUrl(url);
+        }
     }
 }

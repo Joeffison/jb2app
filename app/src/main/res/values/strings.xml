@@ -14,6 +14,8 @@
 
     <string name="home">Home</string>
     <string name="utilities">Utilities</string>
+    <string name="last_meetings">Meetings</string>
+    <string name="condominium_rules">Rules</string>
     <string name="website">Website</string>
     <string name="credits">Credits</string>
     <string name="aboutme">About the Dev</string>

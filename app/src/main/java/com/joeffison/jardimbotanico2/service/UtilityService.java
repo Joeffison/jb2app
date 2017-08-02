@@ -43,7 +43,7 @@ public class UtilityService {
         return list(onSuccess, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(Log.ERROR+"", "That didn't work!");
+                Log.e(Log.ERROR+"", "Error on fetching Utility list!");
             }
         });
     }
@@ -55,10 +55,6 @@ public class UtilityService {
                 // Display the first 500 characters of the response string.
                 Gson gson = new Gson();
                 utilities = gson.fromJson(response, Utility[].class);
-                Log.i("Utilities received", utilities.length+"");
-                for (Utility u: utilities) {
-                    Log.i("Utility received", u+"");
-                }
             }
         });
     }

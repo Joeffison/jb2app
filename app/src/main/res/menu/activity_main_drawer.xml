@@ -4,6 +4,16 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_meetings"
+            android:icon="@drawable/ic_calendar"
+            android:title="@string/last_meetings" />
+
+        <item
+            android:id="@+id/nav_condominium_rules"
+            android:icon="@drawable/common_full_open_on_phone"
+            android:title="@string/condominium_rules" />
+
+        <item
             android:id="@+id/nav_utilities"
             android:icon="@android:drawable/sym_call_outgoing"
             android:title="@string/utilities" />
